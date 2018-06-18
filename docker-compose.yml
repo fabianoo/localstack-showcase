@@ -1,0 +1,15 @@
+version: '3'
+services:
+  localstack:
+    image: "localstack/localstack"
+    environment:
+      - SERVICES=sqs,sns
+    ports:
+      - "4575"
+      - "4576"
+  redis:
+    image: "redis:alpine"
+  # web:
+  #   build: .
+  #     ports:
+  #     - "8080:8080"
