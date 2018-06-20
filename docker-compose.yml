@@ -5,12 +5,21 @@ services:
     environment:
       - SERVICES=sqs
       - PORT_WEB_UI=8000
+      - HOSTNAME_EXTERNAL=localstack
     ports:
       - "4576:4576"
       - "8000:8000"
-  redis:
-    image: "redis:alpine"
-  # web:
-  #   build: .
-  #     ports:
-  #     - "8080:8080"
+  publisher:
+    image: "fabianoo/sample-localstack-publisher"
+    ports:
+      - "9090:8080"
+    depends_on:
+      - localstack
+    entrypoint: "java -Dshowcase.sqs.endpoint=http://localstack:4576 -Djava.security.egd=file:/dev/./urandom -jar /app.jar"
+  consumer:
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      - localstack
+      - publisher
