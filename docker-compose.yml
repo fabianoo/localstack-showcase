@@ -3,10 +3,11 @@ services:
   localstack:
     image: "localstack/localstack"
     environment:
-      - SERVICES=sqs,sns
+      - SERVICES=sqs
+      - PORT_WEB_UI=8000
     ports:
-      - "4575"
-      - "4576"
+      - "4576:4576"
+      - "8000:8000"
   redis:
     image: "redis:alpine"
   # web:
